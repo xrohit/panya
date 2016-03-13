@@ -1,7 +1,7 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,23 +12,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderItemId implements java.io.Serializable {
 
-	private long oderId;
 	private long itemId;
+	private long oderId;
 
 	public OrderItemId() {
 	}
 
-	public OrderItemId(long oderId, long itemId) {
-		this.oderId = oderId;
+	public OrderItemId(long itemId, long oderId) {
 		this.itemId = itemId;
-	}
-
-	@Column(name = "oder_id", nullable = false)
-	public long getOderId() {
-		return this.oderId;
-	}
-
-	public void setOderId(long oderId) {
 		this.oderId = oderId;
 	}
 
@@ -41,6 +32,15 @@ public class OrderItemId implements java.io.Serializable {
 		this.itemId = itemId;
 	}
 
+	@Column(name = "oder_id", nullable = false)
+	public long getOderId() {
+		return this.oderId;
+	}
+
+	public void setOderId(long oderId) {
+		this.oderId = oderId;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -50,15 +50,15 @@ public class OrderItemId implements java.io.Serializable {
 			return false;
 		OrderItemId castOther = (OrderItemId) other;
 
-		return (this.getOderId() == castOther.getOderId())
-				&& (this.getItemId() == castOther.getItemId());
+		return (this.getItemId() == castOther.getItemId())
+				&& (this.getOderId() == castOther.getOderId());
 	}
 
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + (int) this.getOderId();
 		result = 37 * result + (int) this.getItemId();
+		result = 37 * result + (int) this.getOderId();
 		return result;
 	}
 

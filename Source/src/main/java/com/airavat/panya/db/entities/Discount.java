@@ -1,12 +1,17 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,47 +25,48 @@ import javax.persistence.UniqueConstraint;
 public class Discount implements java.io.Serializable {
 
 	private long discountId;
-	private String discountName;
-	private int discountType;
 	private int discount;
-	private Date discountStart;
 	private Date discountExpiry;
-	private Date createdDate;
+	private String discountName;
+	private Date discountStart;
+	private int discountType;
 	private String createdBy;
-	private Date modifiedDate;
 	private String modifiedBy;
+	private Date createdDate;
+	private Date modifiedDate;
+	private Set<Item> items = new HashSet<Item>(0);
 
 	public Discount() {
 	}
 
-	public Discount(long discountId, String discountName, int discountType,
-			int discount, Date discountStart, Date discountExpiry,
-			Date createdDate, String createdBy, Date modifiedDate) {
+	public Discount(long discountId, int discount, Date discountExpiry,
+			String discountName, Date discountStart, int discountType,
+			String createdBy, Date createdDate) {
 		this.discountId = discountId;
-		this.discountName = discountName;
-		this.discountType = discountType;
 		this.discount = discount;
-		this.discountStart = discountStart;
 		this.discountExpiry = discountExpiry;
-		this.createdDate = createdDate;
+		this.discountName = discountName;
+		this.discountStart = discountStart;
+		this.discountType = discountType;
 		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
+		this.createdDate = createdDate;
 	}
 
-	public Discount(long discountId, String discountName, int discountType,
-			int discount, Date discountStart, Date discountExpiry,
-			Date createdDate, String createdBy, Date modifiedDate,
-			String modifiedBy) {
+	public Discount(long discountId, int discount, Date discountExpiry,
+			String discountName, Date discountStart, int discountType,
+			String createdBy, String modifiedBy, Date createdDate,
+			Date modifiedDate, Set<Item> items) {
 		this.discountId = discountId;
-		this.discountName = discountName;
-		this.discountType = discountType;
 		this.discount = discount;
-		this.discountStart = discountStart;
 		this.discountExpiry = discountExpiry;
-		this.createdDate = createdDate;
+		this.discountName = discountName;
+		this.discountStart = discountStart;
+		this.discountType = discountType;
 		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
 		this.modifiedBy = modifiedBy;
+		this.createdDate = createdDate;
+		this.modifiedDate = modifiedDate;
+		this.items = items;
 	}
 
 	@Id
@@ -73,6 +79,25 @@ public class Discount implements java.io.Serializable {
 		this.discountId = discountId;
 	}
 
+	@Column(name = "discount", nullable = false)
+	public int getDiscount() {
+		return this.discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "discount_expiry", nullable = false, length = 29)
+	public Date getDiscountExpiry() {
+		return this.discountExpiry;
+	}
+
+	public void setDiscountExpiry(Date discountExpiry) {
+		this.discountExpiry = discountExpiry;
+	}
+
 	@Column(name = "discount_name", unique = true, nullable = false, length = 32)
 	public String getDiscountName() {
 		return this.discountName;
@@ -80,6 +105,16 @@ public class Discount implements java.io.Serializable {
 
 	public void setDiscountName(String discountName) {
 		this.discountName = discountName;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "discount_start", nullable = false, length = 29)
+	public Date getDiscountStart() {
+		return this.discountStart;
+	}
+
+	public void setDiscountStart(Date discountStart) {
+		this.discountStart = discountStart;
 	}
 
 	@Column(name = "discount_type", nullable = false)
@@ -91,45 +126,6 @@ public class Discount implements java.io.Serializable {
 		this.discountType = discountType;
 	}
 
-	@Column(name = "discount", nullable = false)
-	public int getDiscount() {
-		return this.discount;
-	}
-
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "discount_start", nullable = false, length = 35)
-	public Date getDiscountStart() {
-		return this.discountStart;
-	}
-
-	public void setDiscountStart(Date discountStart) {
-		this.discountStart = discountStart;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "discount_expiry", nullable = false, length = 35)
-	public Date getDiscountExpiry() {
-		return this.discountExpiry;
-	}
-
-	public void setDiscountExpiry(Date discountExpiry) {
-		this.discountExpiry = discountExpiry;
-	}
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "created_date", nullable = false, length = 21)
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	@Column(name = "created_by", nullable = false, length = 32)
 	public String getCreatedBy() {
 		return this.createdBy;
@@ -139,8 +135,27 @@ public class Discount implements java.io.Serializable {
 		this.createdBy = createdBy;
 	}
 
-	@Temporal(TemporalType.TIME)
-	@Column(name = "modified_date", nullable = false, length = 21)
+	@Column(name = "modified_by", length = 32)
+	public String getModifiedBy() {
+		return this.modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_date", nullable = false, length = 29)
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modified_date", length = 29)
 	public Date getModifiedDate() {
 		return this.modifiedDate;
 	}
@@ -149,13 +164,13 @@ public class Discount implements java.io.Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	@Column(name = "modified_by", length = 32)
-	public String getModifiedBy() {
-		return this.modifiedBy;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "discount")
+	public Set<Item> getItems() {
+		return this.items;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
+	public void setItems(Set<Item> items) {
+		this.items = items;
 	}
 
 }

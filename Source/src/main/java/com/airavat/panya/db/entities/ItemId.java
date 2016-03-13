@@ -1,7 +1,7 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,23 +12,14 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ItemId implements java.io.Serializable {
 
-	private long shopId;
 	private long itemId;
+	private long shopId;
 
 	public ItemId() {
 	}
 
-	public ItemId(long shopId, long itemId) {
-		this.shopId = shopId;
+	public ItemId(long itemId, long shopId) {
 		this.itemId = itemId;
-	}
-
-	@Column(name = "shop_id", nullable = false)
-	public long getShopId() {
-		return this.shopId;
-	}
-
-	public void setShopId(long shopId) {
 		this.shopId = shopId;
 	}
 
@@ -41,6 +32,15 @@ public class ItemId implements java.io.Serializable {
 		this.itemId = itemId;
 	}
 
+	@Column(name = "shop_id", nullable = false)
+	public long getShopId() {
+		return this.shopId;
+	}
+
+	public void setShopId(long shopId) {
+		this.shopId = shopId;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -50,15 +50,15 @@ public class ItemId implements java.io.Serializable {
 			return false;
 		ItemId castOther = (ItemId) other;
 
-		return (this.getShopId() == castOther.getShopId())
-				&& (this.getItemId() == castOther.getItemId());
+		return (this.getItemId() == castOther.getItemId())
+				&& (this.getShopId() == castOther.getShopId());
 	}
 
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + (int) this.getShopId();
 		result = 37 * result + (int) this.getItemId();
+		result = 37 * result + (int) this.getShopId();
 		return result;
 	}
 

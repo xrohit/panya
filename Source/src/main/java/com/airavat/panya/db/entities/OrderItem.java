@@ -1,14 +1,18 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,39 +25,41 @@ import javax.persistence.TemporalType;
 public class OrderItem implements java.io.Serializable {
 
 	private OrderItemId id;
-	private long discountedItemPrice;
-	private Date createdDate;
+	private Orders orders;
 	private String createdBy;
-	private Date modifiedDate;
+	private long discountedItemPrice;
 	private String modifiedBy;
+	private Date createdDate;
+	private Date modifiedDate;
 
 	public OrderItem() {
 	}
 
-	public OrderItem(OrderItemId id, long discountedItemPrice,
-			Date createdDate, String createdBy, Date modifiedDate) {
+	public OrderItem(OrderItemId id, Orders orders, String createdBy,
+			long discountedItemPrice, Date createdDate) {
 		this.id = id;
+		this.orders = orders;
+		this.createdBy = createdBy;
 		this.discountedItemPrice = discountedItemPrice;
 		this.createdDate = createdDate;
-		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
 	}
 
-	public OrderItem(OrderItemId id, long discountedItemPrice,
-			Date createdDate, String createdBy, Date modifiedDate,
-			String modifiedBy) {
+	public OrderItem(OrderItemId id, Orders orders, String createdBy,
+			long discountedItemPrice, String modifiedBy, Date createdDate,
+			Date modifiedDate) {
 		this.id = id;
-		this.discountedItemPrice = discountedItemPrice;
-		this.createdDate = createdDate;
+		this.orders = orders;
 		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
+		this.discountedItemPrice = discountedItemPrice;
 		this.modifiedBy = modifiedBy;
+		this.createdDate = createdDate;
+		this.modifiedDate = modifiedDate;
 	}
 
 	@EmbeddedId
 	@AttributeOverrides({
-			@AttributeOverride(name = "oderId", column = @Column(name = "oder_id", nullable = false)),
-			@AttributeOverride(name = "itemId", column = @Column(name = "item_id", nullable = false)) })
+			@AttributeOverride(name = "itemId", column = @Column(name = "item_id", nullable = false)),
+			@AttributeOverride(name = "oderId", column = @Column(name = "oder_id", nullable = false)) })
 	public OrderItemId getId() {
 		return this.id;
 	}
@@ -62,23 +68,14 @@ public class OrderItem implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "discounted_item_price", nullable = false)
-	public long getDiscountedItemPrice() {
-		return this.discountedItemPrice;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "oder_id", nullable = false, insertable = false, updatable = false)
+	public Orders getOrders() {
+		return this.orders;
 	}
 
-	public void setDiscountedItemPrice(long discountedItemPrice) {
-		this.discountedItemPrice = discountedItemPrice;
-	}
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "created_date", nullable = false, length = 21)
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setOrders(Orders orders) {
+		this.orders = orders;
 	}
 
 	@Column(name = "created_by", nullable = false, length = 32)
@@ -90,14 +87,13 @@ public class OrderItem implements java.io.Serializable {
 		this.createdBy = createdBy;
 	}
 
-	@Temporal(TemporalType.TIME)
-	@Column(name = "modified_date", nullable = false, length = 21)
-	public Date getModifiedDate() {
-		return this.modifiedDate;
+	@Column(name = "discounted_item_price", nullable = false)
+	public long getDiscountedItemPrice() {
+		return this.discountedItemPrice;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setDiscountedItemPrice(long discountedItemPrice) {
+		this.discountedItemPrice = discountedItemPrice;
 	}
 
 	@Column(name = "modified_by", length = 32)
@@ -107,6 +103,26 @@ public class OrderItem implements java.io.Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_date", nullable = false, length = 29)
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modified_date", length = 29)
+	public Date getModifiedDate() {
+		return this.modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 }

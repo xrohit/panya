@@ -1,7 +1,7 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,16 +13,16 @@ import javax.persistence.Embeddable;
 public class CartId implements java.io.Serializable {
 
 	private long cartId;
-	private String shopId;
-	private String itemId;
+	private long itemId;
+	private long shopId;
 
 	public CartId() {
 	}
 
-	public CartId(long cartId, String shopId, String itemId) {
+	public CartId(long cartId, long itemId, long shopId) {
 		this.cartId = cartId;
-		this.shopId = shopId;
 		this.itemId = itemId;
+		this.shopId = shopId;
 	}
 
 	@Column(name = "cart_id", nullable = false)
@@ -34,22 +34,22 @@ public class CartId implements java.io.Serializable {
 		this.cartId = cartId;
 	}
 
-	@Column(name = "shop_id", nullable = false, length = 32)
-	public String getShopId() {
-		return this.shopId;
-	}
-
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
-	}
-
-	@Column(name = "item_id", nullable = false, length = 32)
-	public String getItemId() {
+	@Column(name = "item_id", nullable = false)
+	public long getItemId() {
 		return this.itemId;
 	}
 
-	public void setItemId(String itemId) {
+	public void setItemId(long itemId) {
 		this.itemId = itemId;
+	}
+
+	@Column(name = "shop_id", nullable = false)
+	public long getShopId() {
+		return this.shopId;
+	}
+
+	public void setShopId(long shopId) {
+		this.shopId = shopId;
 	}
 
 	public boolean equals(Object other) {
@@ -62,22 +62,16 @@ public class CartId implements java.io.Serializable {
 		CartId castOther = (CartId) other;
 
 		return (this.getCartId() == castOther.getCartId())
-				&& ((this.getShopId() == castOther.getShopId()) || (this
-						.getShopId() != null && castOther.getShopId() != null && this
-						.getShopId().equals(castOther.getShopId())))
-				&& ((this.getItemId() == castOther.getItemId()) || (this
-						.getItemId() != null && castOther.getItemId() != null && this
-						.getItemId().equals(castOther.getItemId())));
+				&& (this.getItemId() == castOther.getItemId())
+				&& (this.getShopId() == castOther.getShopId());
 	}
 
 	public int hashCode() {
 		int result = 17;
 
 		result = 37 * result + (int) this.getCartId();
-		result = 37 * result
-				+ (getShopId() == null ? 0 : this.getShopId().hashCode());
-		result = 37 * result
-				+ (getItemId() == null ? 0 : this.getItemId().hashCode());
+		result = 37 * result + (int) this.getItemId();
+		result = 37 * result + (int) this.getShopId();
 		return result;
 	}
 

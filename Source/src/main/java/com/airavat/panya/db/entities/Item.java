@@ -1,14 +1,21 @@
 package com.airavat.panya.db.entities;
 
 // default package
-// Generated 13 Mar, 2016 12:07:23 PM by Hibernate Tools 3.4.0.CR1
+// Generated 13 Mar, 2016 10:19:08 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,51 +28,56 @@ import javax.persistence.TemporalType;
 public class Item implements java.io.Serializable {
 
 	private ItemId id;
-	private String itemName;
-	private String itemDesc;
-	private String itemUnit;
-	private int itemPrice;
-	private String itemBrand;
-	private Integer discountId;
-	private Date createdDate;
+	private Discount discount;
+	private ShopkeeperProfile shopkeeperProfile;
 	private String createdBy;
-	private Date modifiedDate;
+	private String itemBrand;
+	private String itemDesc;
+	private String itemName;
+	private int itemPrice;
+	private String itemUnit;
 	private String modifiedBy;
+	private Date createdDate;
+	private Date modifiedDate;
+	private Set<Cart> carts = new HashSet<Cart>(0);
 
 	public Item() {
 	}
 
-	public Item(ItemId id, String itemName, int itemPrice, Date createdDate,
-			String createdBy, Date modifiedDate) {
+	public Item(ItemId id, ShopkeeperProfile shopkeeperProfile,
+			String createdBy, String itemName, int itemPrice, Date createdDate) {
 		this.id = id;
+		this.shopkeeperProfile = shopkeeperProfile;
+		this.createdBy = createdBy;
 		this.itemName = itemName;
 		this.itemPrice = itemPrice;
 		this.createdDate = createdDate;
-		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
 	}
 
-	public Item(ItemId id, String itemName, String itemDesc, String itemUnit,
-			int itemPrice, String itemBrand, Integer discountId,
-			Date createdDate, String createdBy, Date modifiedDate,
-			String modifiedBy) {
+	public Item(ItemId id, Discount discount,
+			ShopkeeperProfile shopkeeperProfile, String createdBy,
+			String itemBrand, String itemDesc, String itemName, int itemPrice,
+			String itemUnit, String modifiedBy, Date createdDate,
+			Date modifiedDate, Set<Cart> carts) {
 		this.id = id;
-		this.itemName = itemName;
-		this.itemDesc = itemDesc;
-		this.itemUnit = itemUnit;
-		this.itemPrice = itemPrice;
-		this.itemBrand = itemBrand;
-		this.discountId = discountId;
-		this.createdDate = createdDate;
+		this.discount = discount;
+		this.shopkeeperProfile = shopkeeperProfile;
 		this.createdBy = createdBy;
-		this.modifiedDate = modifiedDate;
+		this.itemBrand = itemBrand;
+		this.itemDesc = itemDesc;
+		this.itemName = itemName;
+		this.itemPrice = itemPrice;
+		this.itemUnit = itemUnit;
 		this.modifiedBy = modifiedBy;
+		this.createdDate = createdDate;
+		this.modifiedDate = modifiedDate;
+		this.carts = carts;
 	}
 
 	@EmbeddedId
 	@AttributeOverrides({
-			@AttributeOverride(name = "shopId", column = @Column(name = "shop_id", nullable = false)),
-			@AttributeOverride(name = "itemId", column = @Column(name = "item_id", nullable = false)) })
+			@AttributeOverride(name = "itemId", column = @Column(name = "item_id", nullable = false)),
+			@AttributeOverride(name = "shopId", column = @Column(name = "shop_id", nullable = false)) })
 	public ItemId getId() {
 		return this.id;
 	}
@@ -74,68 +86,24 @@ public class Item implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "item_name", nullable = false, length = 32)
-	public String getItemName() {
-		return this.itemName;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "discount_id")
+	public Discount getDiscount() {
+		return this.discount;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setDiscount(Discount discount) {
+		this.discount = discount;
 	}
 
-	@Column(name = "item_desc", length = 64)
-	public String getItemDesc() {
-		return this.itemDesc;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shop_id", nullable = false, insertable = false, updatable = false)
+	public ShopkeeperProfile getShopkeeperProfile() {
+		return this.shopkeeperProfile;
 	}
 
-	public void setItemDesc(String itemDesc) {
-		this.itemDesc = itemDesc;
-	}
-
-	@Column(name = "item_unit", length = 16)
-	public String getItemUnit() {
-		return this.itemUnit;
-	}
-
-	public void setItemUnit(String itemUnit) {
-		this.itemUnit = itemUnit;
-	}
-
-	@Column(name = "item_price", nullable = false)
-	public int getItemPrice() {
-		return this.itemPrice;
-	}
-
-	public void setItemPrice(int itemPrice) {
-		this.itemPrice = itemPrice;
-	}
-
-	@Column(name = "item_brand", length = 32)
-	public String getItemBrand() {
-		return this.itemBrand;
-	}
-
-	public void setItemBrand(String itemBrand) {
-		this.itemBrand = itemBrand;
-	}
-
-	@Column(name = "discount_id")
-	public Integer getDiscountId() {
-		return this.discountId;
-	}
-
-	public void setDiscountId(Integer discountId) {
-		this.discountId = discountId;
-	}
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "created_date", nullable = false, length = 21)
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile) {
+		this.shopkeeperProfile = shopkeeperProfile;
 	}
 
 	@Column(name = "created_by", nullable = false, length = 32)
@@ -147,14 +115,49 @@ public class Item implements java.io.Serializable {
 		this.createdBy = createdBy;
 	}
 
-	@Temporal(TemporalType.TIME)
-	@Column(name = "modified_date", nullable = false, length = 21)
-	public Date getModifiedDate() {
-		return this.modifiedDate;
+	@Column(name = "item_brand", length = 32)
+	public String getItemBrand() {
+		return this.itemBrand;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setItemBrand(String itemBrand) {
+		this.itemBrand = itemBrand;
+	}
+
+	@Column(name = "item_desc", length = 64)
+	public String getItemDesc() {
+		return this.itemDesc;
+	}
+
+	public void setItemDesc(String itemDesc) {
+		this.itemDesc = itemDesc;
+	}
+
+	@Column(name = "item_name", nullable = false, length = 32)
+	public String getItemName() {
+		return this.itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	@Column(name = "item_price", nullable = false)
+	public int getItemPrice() {
+		return this.itemPrice;
+	}
+
+	public void setItemPrice(int itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	@Column(name = "item_unit", length = 16)
+	public String getItemUnit() {
+		return this.itemUnit;
+	}
+
+	public void setItemUnit(String itemUnit) {
+		this.itemUnit = itemUnit;
 	}
 
 	@Column(name = "modified_by", length = 32)
@@ -164,6 +167,35 @@ public class Item implements java.io.Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_date", nullable = false, length = 29)
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modified_date", length = 29)
+	public Date getModifiedDate() {
+		return this.modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+	public Set<Cart> getCarts() {
+		return this.carts;
+	}
+
+	public void setCarts(Set<Cart> carts) {
+		this.carts = carts;
 	}
 
 }
