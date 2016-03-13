@@ -1,4 +1,4 @@
-package com.airavat.panya.dao.impl;
+package com.airavat.panya.db.dao.impl;
 
 import java.util.Iterator;
 import java.util.Map;

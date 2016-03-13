@@ -1,4 +1,4 @@
-package com.airavat.panya.dao.impl;
+package com.airavat.panya.db.dao.impl;
 
 import com.airavat.panya.db.dao.AuthoritiesDao;
 import com.airavat.panya.db.entities.Authorities;
