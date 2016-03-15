@@ -42,17 +42,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 @Override
 	 protected void configure(HttpSecurity http) throws Exception {
 
-
 	        http
 	            .authorizeRequests()
-	          	.antMatchers("admin").access("hasRole('ROLE_ADMIN')")  
-	                .antMatchers("/", "/home", "/public","/css/**","/fonts/**","/libs/**").permitAll()
-	                .anyRequest().authenticated()
+	          		.antMatchers("/api/admin").access("hasRole('ROLE_ADMIN')")  
+	          		.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")  // Just for testing remove later
+	          		.antMatchers("/api/user").access("hasRole('ROLE_USER')")
+	                //.antMatchers("/", "/home", "/public","/css/**","/fonts/**","/libs/**").permitAll()
+	                //.anyRequest().authenticated()
 	                .and()
 	            .formLogin()
 	                .loginPage("/login")
-	                .permitAll()
+//	        	    .usernameParameter("username").passwordParameter("password")
 	                .and()
+	            .formLogin()
+	            	.permitAll()
+	            	.and()	            
 	            .logout()
 	                .permitAll()
 	          	  	.and()
@@ -61,16 +65,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        	   .and()
 	        	.exceptionHandling()
 	        		.accessDeniedPage("/403");
-//	   http.authorizeRequests()
-//	  .antMatchers("/greeting").access("hasRole('ROLE_ADMIN')")  
-//	  .anyRequest().permitAll()
-//	  .and()
-//	    .formLogin().loginPage("/login")
-//	    .usernameParameter("username").passwordParameter("password")
-//	  .and()
-//	    .logout().logoutSuccessUrl("/login?logout") 
-//	   .and()
-//	   .exceptionHandling().accessDeniedPage("/403")
 //	  .and()
 //	    .csrf();
 	 }
