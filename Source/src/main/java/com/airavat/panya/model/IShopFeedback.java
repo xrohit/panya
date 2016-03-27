@@ -2,41 +2,7 @@ package com.airavat.panya.model;
 
 import java.util.Date;
 
-import com.airavat.panya.db.entities.BuyerProfile;
-import com.airavat.panya.db.entities.ShopFeedbackId;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
-
 public interface IShopFeedback {
-
-	/**
-	 * @return the id
-	 */
-	ShopFeedbackId getId();
-
-	/**
-	 * @param id the id to set
-	 */
-	void setId(ShopFeedbackId id);
-
-	/**
-	 * @return the buyerProfile
-	 */
-	BuyerProfile getBuyerProfile();
-
-	/**
-	 * @param buyerProfile the buyerProfile to set
-	 */
-	void setBuyerProfile(BuyerProfile buyerProfile);
-
-	/**
-	 * @return the shopkeeperProfile
-	 */
-	ShopkeeperProfile getShopkeeperProfile();
-
-	/**
-	 * @param shopkeeperProfile the shopkeeperProfile to set
-	 */
-	void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile);
 
 	/**
 	 * @return the createdBy

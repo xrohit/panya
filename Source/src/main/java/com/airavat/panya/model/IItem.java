@@ -1,44 +1,8 @@
 package com.airavat.panya.model;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.airavat.panya.db.entities.Cart;
-import com.airavat.panya.db.entities.Discount;
-import com.airavat.panya.db.entities.ItemId;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
 
 public interface IItem {
-
-	/**
-	 * @return the id
-	 */
-	ItemId getId();
-
-	/**
-	 * @param id the id to set
-	 */
-	void setId(ItemId id);
-
-	/**
-	 * @return the discount
-	 */
-	Discount getDiscount();
-
-	/**
-	 * @param discount the discount to set
-	 */
-	void setDiscount(Discount discount);
-
-	/**
-	 * @return the shopkeeperProfile
-	 */
-	ShopkeeperProfile getShopkeeperProfile();
-
-	/**
-	 * @param shopkeeperProfile the shopkeeperProfile to set
-	 */
-	void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile);
 
 	/**
 	 * @return the createdBy
@@ -129,15 +93,5 @@ public interface IItem {
 	 * @param modifiedDate the modifiedDate to set
 	 */
 	void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * @return the carts
-	 */
-	Set<Cart> getCarts();
-
-	/**
-	 * @param carts the carts to set
-	 */
-	void setCarts(Set<Cart> carts);
 
 }

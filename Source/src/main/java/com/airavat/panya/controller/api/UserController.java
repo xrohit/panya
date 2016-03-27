@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.airavat.panya.db.dao.UsersDao;
-import com.airavat.panya.db.entities.Users;
 import com.airavat.panya.model.IUser;
-import com.airavat.panya.model.impl.User;
+import com.airavat.panya.model.impl.UserModel;
 
 
 /**
@@ -25,17 +24,17 @@ public class UserController implements BaseController {
 	@Autowired
 	UsersDao usersDao;	
 	
-	@RequestMapping(API_BASE_PATH + "get")
+	@RequestMapping(API_BASE_PATH_USER + "get")
     public @ResponseBody IUser greetingWithJavaconfig(@RequestParam(required=false, defaultValue="World") String id) {
 		
 		IUser user = null;
 		try {
 		
-			user = new User(usersDao.findById(Long.parseLong(id)));
+			user = new UserModel(usersDao.findById(Long.parseLong(id)), true);
         
 		} catch (Exception e) {
 			
-			user = new User();
+			user = new UserModel();
 		}
 		return user;
     }

@@ -1,9 +1,6 @@
 package com.airavat.panya.model;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.airavat.panya.db.entities.Item;
 
 public interface IDiscount {
 
@@ -106,15 +103,5 @@ public interface IDiscount {
 	 * @param modifiedDate the modifiedDate to set
 	 */
 	void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * @return the items
-	 */
-	Set<Item> getItems();
-
-	/**
-	 * @param items the items to set
-	 */
-	void setItems(Set<Item> items);
 
 }

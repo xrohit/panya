@@ -7,59 +7,58 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
-import com.airavat.panya.db.entities.CartId;
-import com.airavat.panya.db.entities.Item;
+import com.airavat.panya.db.entities.Cart;
 import com.airavat.panya.model.ICart;
 
 /**
  * @author prohit
  *
  */
-public class Cart implements ICart {
+public class CartModel implements ICart {
 
-	private CartId id;
-	private Item item;
+	private CartIdModel id;
+	private ItemModel item;
 	private String createdBy;
 	private String modifiedBy;
 	private Date createdDate;
 	private Date modifiedDate;
 
-	public Cart() {
+	public CartModel() {
 	}
 	
-	public Cart(ICart source) {
-		BeanUtils.copyProperties(source, this);
+	public CartModel(Cart source, boolean recursive) {
+		BeanUtils.copyProperties(source, this, "id", "item");
+		this.id = new CartIdModel(source.getId());
+		if(recursive) {
+			this.item = new ItemModel(source.getItem(), false);
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.ICart#getId()
 	 */
-	@Override
-	public CartId getId() {
+	public CartIdModel getId() {
 		return id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.ICart#setId(com.airavat.panya.db.entities.CartId)
 	 */
-	@Override
-	public void setId(CartId id) {
+	public void setId(CartIdModel id) {
 		this.id = id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.ICart#getItem()
 	 */
-	@Override
-	public Item getItem() {
+	public ItemModel getItem() {
 		return item;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.ICart#setItem(com.airavat.panya.db.entities.Item)
 	 */
-	@Override
-	public void setItem(Item item) {
+	public void setItem(ItemModel item) {
 		this.item = item;
 	}
 

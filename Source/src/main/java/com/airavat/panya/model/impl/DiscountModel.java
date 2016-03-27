@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
+import com.airavat.panya.db.entities.Discount;
 import com.airavat.panya.db.entities.Item;
 import com.airavat.panya.model.IDiscount;
 
@@ -16,7 +17,7 @@ import com.airavat.panya.model.IDiscount;
  * @author prohit
  *
  */
-public class Discount implements IDiscount {
+public class DiscountModel implements IDiscount {
 
 	private long discountId;
 	private int discount;
@@ -28,13 +29,18 @@ public class Discount implements IDiscount {
 	private String modifiedBy;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Set<Item> items = new HashSet<Item>(0);
+	private Set<ItemModel> items = new HashSet<ItemModel>(0);
 
-	public Discount() {
+	public DiscountModel() {
 	}
 
-	public Discount(IDiscount source) {
-		BeanUtils.copyProperties(source, this);
+	public DiscountModel(Discount source, boolean recursive) {
+		BeanUtils.copyProperties(source, this, "items");
+		if(recursive) {
+			for(Item i : source.getItems()) {
+				this.items.add(new ItemModel(i, false));
+			}
+		}
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IDiscount#getDiscountId()
@@ -199,16 +205,14 @@ public class Discount implements IDiscount {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IDiscount#getItems()
 	 */
-	@Override
-	public Set<Item> getItems() {
+	public Set<ItemModel> getItems() {
 		return items;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IDiscount#setItems(java.util.Set)
 	 */
-	@Override
-	public void setItems(Set<Item> items) {
+	public void setItems(Set<ItemModel> items) {
 		this.items = items;
 	}
 }

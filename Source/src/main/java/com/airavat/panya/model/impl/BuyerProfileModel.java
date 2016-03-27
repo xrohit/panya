@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
+import com.airavat.panya.db.entities.BuyerProfile;
 import com.airavat.panya.db.entities.Orders;
 import com.airavat.panya.db.entities.ShopFeedback;
 import com.airavat.panya.db.entities.Users;
@@ -18,10 +19,10 @@ import com.airavat.panya.model.IBuyerProfile;
  * @author prohit
  *
  */
-public class BuyerProfile implements IBuyerProfile {
+public class BuyerProfileModel implements IBuyerProfile {
 
 	private long buyerId;
-	private Users users;
+	private UserModel users;
 	private String buyerPrimaryContact;
 	private String buyerSecondaryContact;
 	private String createdBy;
@@ -30,16 +31,39 @@ public class BuyerProfile implements IBuyerProfile {
 	private String registeredShops;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Set<ShopFeedback> shopFeedbacks = new HashSet<ShopFeedback>(0);
-	private Set<Orders> orderses = new HashSet<Orders>(0);
+	private Set<ShopFeedbackModel> shopFeedbacks = new HashSet<ShopFeedbackModel>(0);
+	private Set<OrderModel> orderses = new HashSet<OrderModel>(0);
 	
-	public BuyerProfile() {
+	public BuyerProfileModel() {
 		
 	}
-	
-	public BuyerProfile(IBuyerProfile source) {
+	public BuyerProfileModel(Users users) {
 		
-		BeanUtils.copyProperties(source, this);
+		BuyerProfile source = users.getBuyerProfile();
+		
+		BeanUtils.copyProperties(source, this, "users", "shopFeedbacks", "orderses");
+		for(ShopFeedback fb : source.getShopFeedbacks()) {
+			this.shopFeedbacks.add(new ShopFeedbackModel(fb, false));
+		}
+		for(Orders o : source.getOrderses()) {
+			this.orderses.add(new OrderModel(o, false));
+		}
+	}
+	
+	public BuyerProfileModel(BuyerProfile source, boolean recursive) {
+		
+		BeanUtils.copyProperties(source, this, "users", "shopFeedbacks", "orderses");
+		
+		if(recursive) {
+			this.users = new UserModel(source.getUsers(), false);
+		}
+		
+		for(ShopFeedback fb : source.getShopFeedbacks()) {
+			this.shopFeedbacks.add(new ShopFeedbackModel(fb, false));
+		}
+		for(Orders o : source.getOrderses()) {
+			this.orderses.add(new OrderModel(o, false));
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -59,15 +83,13 @@ public class BuyerProfile implements IBuyerProfile {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#getUsers()
 	 */
-	@Override
-	public Users getUsers() {
+	public UserModel getUsers() {
 		return users;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#setUsers(com.airavat.panya.db.entities.Users)
 	 */
-	@Override
-	public void setUsers(Users users) {
+	public void setUsers(UserModel users) {
 		this.users = users;
 	}
 	/* (non-Javadoc)
@@ -185,29 +207,25 @@ public class BuyerProfile implements IBuyerProfile {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#getShopFeedbacks()
 	 */
-	@Override
-	public Set<ShopFeedback> getShopFeedbacks() {
+	public Set<ShopFeedbackModel> getShopFeedbacks() {
 		return shopFeedbacks;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#setShopFeedbacks(java.util.Set)
 	 */
-	@Override
-	public void setShopFeedbacks(Set<ShopFeedback> shopFeedbacks) {
+	public void setShopFeedbacks(Set<ShopFeedbackModel> shopFeedbacks) {
 		this.shopFeedbacks = shopFeedbacks;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#getOrderses()
 	 */
-	@Override
-	public Set<Orders> getOrderses() {
+	public Set<OrderModel> getOrderses() {
 		return orderses;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IBuyerProfile#setOrderses(java.util.Set)
 	 */
-	@Override
-	public void setOrderses(Set<Orders> orderses) {
+	public void setOrderses(Set<OrderModel> orderses) {
 		this.orderses = orderses;
 	}
 }

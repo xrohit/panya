@@ -11,15 +11,15 @@ import com.airavat.panya.model.IShopFeedbackId;
  * @author prohit
  *
  */
-public class ShopFeedbackId implements IShopFeedbackId {
+public class ShopFeedbackIdModel implements IShopFeedbackId {
 
 	private long buyerId;
 	private long shopId;
 
-	public ShopFeedbackId() {
+	public ShopFeedbackIdModel() {
 	}
 	
-	public ShopFeedbackId(IShopFeedbackId source) {
+	public ShopFeedbackIdModel(IShopFeedbackId source) {
 		BeanUtils.copyProperties(source, this);
 	}
 

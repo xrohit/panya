@@ -9,33 +9,39 @@ import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
-import com.airavat.panya.db.entities.BuyerProfile;
 import com.airavat.panya.db.entities.OrderItem;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
+import com.airavat.panya.db.entities.Orders;
 import com.airavat.panya.model.IOrder;
 
 /**
  * @author prohit
  *
  */
-public class Order implements IOrder {
+public class OrderModel implements IOrder {
 
 	private long orderId;
-	private BuyerProfile buyerProfile;
-	private ShopkeeperProfile shopkeeperProfile;
+	private BuyerProfileModel buyerProfile;
+	private ShopkeeperProfileModel shopkeeperProfile;
 	private String createdBy;
 	private String modifiedBy;
 	private String oderStatus;
 	private long totalPrice;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Set<OrderItem> orderItems = new HashSet<OrderItem>(0);
+	private Set<OrderItemModel> orderItems = new HashSet<OrderItemModel>(0);
 
-	public Order() {
+	public OrderModel() {
 	}
 	
-	public Order(IOrder source) {
-		BeanUtils.copyProperties(source, this);
+	public OrderModel(Orders source, boolean recursive) {
+		BeanUtils.copyProperties(source, this, "buyerProfile", "shopkeeperProfile", "orderItems");
+		if(recursive) {
+			this.buyerProfile = new BuyerProfileModel(source.getBuyerProfile(), false);
+			this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);
+		}
+		for(OrderItem oi : source.getOrderItems()) {
+			this.orderItems.add(new OrderItemModel(oi, false));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -57,32 +63,28 @@ public class Order implements IOrder {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#getBuyerProfile()
 	 */
-	@Override
-	public BuyerProfile getBuyerProfile() {
+	public BuyerProfileModel getBuyerProfile() {
 		return buyerProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#setBuyerProfile(com.airavat.panya.db.entities.BuyerProfile)
 	 */
-	@Override
-	public void setBuyerProfile(BuyerProfile buyerProfile) {
+	public void setBuyerProfile(BuyerProfileModel buyerProfile) {
 		this.buyerProfile = buyerProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#getShopkeeperProfile()
 	 */
-	@Override
-	public ShopkeeperProfile getShopkeeperProfile() {
+	public ShopkeeperProfileModel getShopkeeperProfile() {
 		return shopkeeperProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#setShopkeeperProfile(com.airavat.panya.db.entities.ShopkeeperProfile)
 	 */
-	@Override
-	public void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile) {
+	public void setShopkeeperProfile(ShopkeeperProfileModel shopkeeperProfile) {
 		this.shopkeeperProfile = shopkeeperProfile;
 	}
 
@@ -185,16 +187,14 @@ public class Order implements IOrder {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#getOrderItems()
 	 */
-	@Override
-	public Set<OrderItem> getOrderItems() {
+	public Set<OrderItemModel> getOrderItems() {
 		return orderItems;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IOrder#setOrderItems(java.util.Set)
 	 */
-	@Override
-	public void setOrderItems(Set<OrderItem> orderItems) {
+	public void setOrderItems(Set<OrderItemModel> orderItems) {
 		this.orderItems = orderItems;
 	}
 

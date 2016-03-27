@@ -2,30 +2,7 @@ package com.airavat.panya.model;
 
 import java.util.Date;
 
-import com.airavat.panya.db.entities.CartId;
-import com.airavat.panya.db.entities.Item;
-
 public interface ICart {
-
-	/**
-	 * @return the id
-	 */
-	CartId getId();
-
-	/**
-	 * @param id the id to set
-	 */
-	void setId(CartId id);
-
-	/**
-	 * @return the item
-	 */
-	Item getItem();
-
-	/**
-	 * @param item the item to set
-	 */
-	void setItem(Item item);
 
 	/**
 	 * @return the createdBy

@@ -10,20 +10,18 @@ import java.util.Set;
 import org.springframework.beans.BeanUtils;
 
 import com.airavat.panya.db.entities.Cart;
-import com.airavat.panya.db.entities.Discount;
-import com.airavat.panya.db.entities.ItemId;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
+import com.airavat.panya.db.entities.Item;
 import com.airavat.panya.model.IItem;
 
 /**
  * @author prohit
  *
  */
-public class Item implements IItem {
+public class ItemModel implements IItem {
 
-	private ItemId id;
-	private Discount discount;
-	private ShopkeeperProfile shopkeeperProfile;
+	private ItemIdModel id;
+	private DiscountModel discount;
+	private ShopkeeperProfileModel shopkeeperProfile;
 	private String createdBy;
 	private String itemBrand;
 	private String itemDesc;
@@ -33,60 +31,63 @@ public class Item implements IItem {
 	private String modifiedBy;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Set<Cart> carts = new HashSet<Cart>(0);
+	private Set<CartModel> carts = new HashSet<CartModel>(0);
 
-	public Item() {
+	public ItemModel() {
 	}
 	
-	public Item(IItem source) {
-		BeanUtils.copyProperties(source, this);
+	public ItemModel(Item source, boolean recursive) {
+		BeanUtils.copyProperties(source, this, "id", "discount", "shopkeeperProfile", "carts");
+		this.id = new ItemIdModel(source.getId());
+		
+		this.discount = new DiscountModel(source.getDiscount(), false);
+		if(recursive) {
+			this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);
+		}
+		for(Cart c : source.getCarts()) {
+			this.carts.add(new CartModel(c, false));
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#getId()
 	 */
-	@Override
-	public ItemId getId() {
+	public ItemIdModel getId() {
 		return id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#setId(com.airavat.panya.db.entities.ItemId)
 	 */
-	@Override
-	public void setId(ItemId id) {
+	public void setId(ItemIdModel id) {
 		this.id = id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#getDiscount()
 	 */
-	@Override
-	public Discount getDiscount() {
+	public DiscountModel getDiscount() {
 		return discount;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#setDiscount(com.airavat.panya.db.entities.Discount)
 	 */
-	@Override
-	public void setDiscount(Discount discount) {
+	public void setDiscount(DiscountModel discount) {
 		this.discount = discount;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#getShopkeeperProfile()
 	 */
-	@Override
-	public ShopkeeperProfile getShopkeeperProfile() {
+	public ShopkeeperProfileModel getShopkeeperProfile() {
 		return shopkeeperProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#setShopkeeperProfile(com.airavat.panya.db.entities.ShopkeeperProfile)
 	 */
-	@Override
-	public void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile) {
+	public void setShopkeeperProfile(ShopkeeperProfileModel shopkeeperProfile) {
 		this.shopkeeperProfile = shopkeeperProfile;
 	}
 
@@ -237,16 +238,14 @@ public class Item implements IItem {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#getCarts()
 	 */
-	@Override
-	public Set<Cart> getCarts() {
+	public Set<CartModel> getCarts() {
 		return carts;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IItem#setCarts(java.util.Set)
 	 */
-	@Override
-	public void setCarts(Set<Cart> carts) {
+	public void setCarts(Set<CartModel> carts) {
 		this.carts = carts;
 	}
 	

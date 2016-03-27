@@ -11,15 +11,15 @@ import com.airavat.panya.model.IOrderItemId;
  * @author prohit
  *
  */
-public class OrderItemId implements IOrderItemId {
+public class OrderItemIdModel implements IOrderItemId {
 
 	private long itemId;
 	private long oderId;
 
-	public OrderItemId() {
+	public OrderItemIdModel() {
 	}
 	
-	public OrderItemId(IOrderItemId source) {
+	public OrderItemIdModel(IOrderItemId source) {
 		BeanUtils.copyProperties(source, this);
 	}
 

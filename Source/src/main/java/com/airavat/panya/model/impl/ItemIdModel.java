@@ -11,16 +11,16 @@ import com.airavat.panya.model.IItemId;
  * @author prohit
  *
  */
-public class ItemId implements IItemId {
+public class ItemIdModel implements IItemId {
 
 
 	private long itemId;
 	private long shopId;
 
-	public ItemId() {
+	public ItemIdModel() {
 	}
 	
-	public ItemId(IItemId source) {
+	public ItemIdModel(IItemId source) {
 		BeanUtils.copyProperties(source, this);
 	}
 

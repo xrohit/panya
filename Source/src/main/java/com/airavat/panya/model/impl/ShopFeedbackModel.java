@@ -7,79 +7,73 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
-import com.airavat.panya.db.entities.BuyerProfile;
-import com.airavat.panya.db.entities.ShopFeedbackId;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
+import com.airavat.panya.db.entities.ShopFeedback;
 import com.airavat.panya.model.IShopFeedback;
 
 /**
  * @author prohit
  *
  */
-public class ShopFeedback implements IShopFeedback {
+public class ShopFeedbackModel implements IShopFeedback {
 
-	private ShopFeedbackId id;
-	private BuyerProfile buyerProfile;
-	private ShopkeeperProfile shopkeeperProfile;
+	private ShopFeedbackIdModel id;
+	private BuyerProfileModel buyerProfile;
+	private ShopkeeperProfileModel shopkeeperProfile;
 	private String createdBy;
 	private String modifiedBy;
 	private String shopComments;
 	private int shopRatings;
 	private Date createdDate;
 	private Date modifiedDate;
-
-	public ShopFeedback() {
-	}
 	
-	public ShopFeedback(IShopFeedback source) {
-		BeanUtils.copyProperties(source, this);
+	public ShopFeedbackModel(ShopFeedback source, boolean recursive) {
+		BeanUtils.copyProperties(source, this, "id", "buyerProfile", "shopkeeperProfile");
+		this.id = new ShopFeedbackIdModel(source.getId());
+		if (recursive) {
+			this.buyerProfile = new BuyerProfileModel(source.getBuyerProfile(), false);
+			this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#getId()
 	 */
-	@Override
-	public ShopFeedbackId getId() {
+	public ShopFeedbackIdModel getId() {
 		return id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#setId(com.airavat.panya.db.entities.ShopFeedbackId)
 	 */
-	@Override
-	public void setId(ShopFeedbackId id) {
+	public void setId(ShopFeedbackIdModel id) {
 		this.id = id;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#getBuyerProfile()
 	 */
-	@Override
-	public BuyerProfile getBuyerProfile() {
+	public BuyerProfileModel getBuyerProfile() {
 		return buyerProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#setBuyerProfile(com.airavat.panya.db.entities.BuyerProfile)
 	 */
-	@Override
-	public void setBuyerProfile(BuyerProfile buyerProfile) {
+	public void setBuyerProfile(BuyerProfileModel buyerProfile) {
 		this.buyerProfile = buyerProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#getShopkeeperProfile()
 	 */
-	@Override
-	public ShopkeeperProfile getShopkeeperProfile() {
+	public ShopkeeperProfileModel getShopkeeperProfile() {
 		return shopkeeperProfile;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.impl.IShopFeedback#setShopkeeperProfile(com.airavat.panya.db.entities.ShopkeeperProfile)
 	 */
-	@Override
-	public void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile) {
+	public void setShopkeeperProfile(ShopkeeperProfileModel shopkeeperProfile) {
 		this.shopkeeperProfile = shopkeeperProfile;
 	}
 

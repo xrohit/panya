@@ -1,11 +1,6 @@
 package com.airavat.panya.model;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.airavat.panya.db.entities.Orders;
-import com.airavat.panya.db.entities.ShopFeedback;
-import com.airavat.panya.db.entities.Users;
 
 public interface IBuyerProfile {
 
@@ -18,16 +13,6 @@ public interface IBuyerProfile {
 	 * @param buyerId the buyerId to set
 	 */
 	void setBuyerId(long buyerId);
-
-	/**
-	 * @return the users
-	 */
-	Users getUsers();
-
-	/**
-	 * @param users the users to set
-	 */
-	void setUsers(Users users);
 
 	/**
 	 * @return the buyerPrimaryContact
@@ -108,25 +93,5 @@ public interface IBuyerProfile {
 	 * @param modifiedDate the modifiedDate to set
 	 */
 	void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * @return the shopFeedbacks
-	 */
-	Set<ShopFeedback> getShopFeedbacks();
-
-	/**
-	 * @param shopFeedbacks the shopFeedbacks to set
-	 */
-	void setShopFeedbacks(Set<ShopFeedback> shopFeedbacks);
-
-	/**
-	 * @return the orderses
-	 */
-	Set<Orders> getOrderses();
-
-	/**
-	 * @param orderses the orderses to set
-	 */
-	void setOrderses(Set<Orders> orderses);
 
 }

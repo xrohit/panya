@@ -10,15 +10,14 @@ import java.util.Set;
 import org.springframework.beans.BeanUtils;
 
 import com.airavat.panya.db.entities.Authorities;
-import com.airavat.panya.db.entities.BuyerProfile;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
+import com.airavat.panya.db.entities.Users;
 import com.airavat.panya.model.IUser;
 
 /**
  * @author prohit
  *
  */
-public class User implements IUser {
+public class UserModel implements IUser {
 
 	private long userId;
 	private String createdBy;
@@ -32,16 +31,23 @@ public class User implements IUser {
 	private boolean enabled;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
-	private BuyerProfile buyerProfile;
-	private ShopkeeperProfile shopkeeperProfile;
+	private Set<AuthorityModel> authoritieses = new HashSet<AuthorityModel>(0);
+	private BuyerProfileModel buyerProfile;
+	private ShopkeeperProfileModel shopkeeperProfile;
 
-	public User() {		
+	public UserModel() {		
 	}
 	
-	public User(IUser source) {
+	public UserModel(Users source, boolean recursive) {
 		
-		BeanUtils.copyProperties(source, this, "authoritieses");
+		BeanUtils.copyProperties(source, this, "authoritieses", "buyerProfile", "shopkeeperProfile");
+		for(Authorities a : source.getAuthoritieses()) {
+			this.authoritieses.add(new AuthorityModel(a));
+		}
+		if(recursive) {
+			this.buyerProfile = new BuyerProfileModel(source.getBuyerProfile(), false);
+			this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);
+		}
 	}
 	
 	
@@ -216,43 +222,37 @@ public class User implements IUser {
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#getAuthoritieses()
 	 */
-	@Override
-	public Set<Authorities> getAuthoritieses() {
+	public Set<AuthorityModel> getAuthoritieses() {
 		return authoritieses;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#setAuthoritieses(java.util.Set)
 	 */
-	@Override
-	public void setAuthoritieses(Set<Authorities> authoritieses) {
+	public void setAuthoritieses(Set<AuthorityModel> authoritieses) {
 		this.authoritieses = authoritieses;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#getBuyerProfile()
 	 */
-	@Override
-	public BuyerProfile getBuyerProfile() {
+	public BuyerProfileModel getBuyerProfile() {
 		return buyerProfile;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#setBuyerProfile(com.airavat.panya.db.entities.BuyerProfile)
 	 */
-	@Override
-	public void setBuyerProfile(BuyerProfile buyerProfile) {
+	public void setBuyerProfile(BuyerProfileModel buyerProfile) {
 		this.buyerProfile = buyerProfile;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#getShopkeeperProfile()
 	 */
-	@Override
-	public ShopkeeperProfile getShopkeeperProfile() {
+	public ShopkeeperProfileModel getShopkeeperProfile() {
 		return shopkeeperProfile;
 	}
 	/* (non-Javadoc)
 	 * @see com.airavat.panya.model.IUser#setShopkeeperProfile(com.airavat.panya.db.entities.ShopkeeperProfile)
 	 */
-	@Override
-	public void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile) {
+	public void setShopkeeperProfile(ShopkeeperProfileModel shopkeeperProfile) {
 		this.shopkeeperProfile = shopkeeperProfile;
 	}
 }

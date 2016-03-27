@@ -2,30 +2,7 @@ package com.airavat.panya.model;
 
 import java.util.Date;
 
-import com.airavat.panya.db.entities.OrderItemId;
-import com.airavat.panya.db.entities.Orders;
-
 public interface IOrderItem {
-
-	/**
-	 * @return the id
-	 */
-	OrderItemId getId();
-
-	/**
-	 * @param id the id to set
-	 */
-	void setId(OrderItemId id);
-
-	/**
-	 * @return the orders
-	 */
-	Orders getOrders();
-
-	/**
-	 * @param orders the orders to set
-	 */
-	void setOrders(Orders orders);
 
 	/**
 	 * @return the createdBy

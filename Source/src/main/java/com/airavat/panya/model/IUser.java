@@ -1,11 +1,6 @@
 package com.airavat.panya.model;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.airavat.panya.db.entities.Authorities;
-import com.airavat.panya.db.entities.BuyerProfile;
-import com.airavat.panya.db.entities.ShopkeeperProfile;
 
 public interface IUser {
 
@@ -128,35 +123,5 @@ public interface IUser {
 	 * @param modifiedDate the modifiedDate to set
 	 */
 	void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * @return the authoritieses
-	 */
-	Set<Authorities> getAuthoritieses();
-
-	/**
-	 * @param authoritieses the authoritieses to set
-	 */
-	void setAuthoritieses(Set<Authorities> authoritieses);
-
-	/**
-	 * @return the buyerProfile
-	 */
-	BuyerProfile getBuyerProfile();
-
-	/**
-	 * @param buyerProfile the buyerProfile to set
-	 */
-	void setBuyerProfile(BuyerProfile buyerProfile);
-
-	/**
-	 * @return the shopkeeperProfile
-	 */
-	ShopkeeperProfile getShopkeeperProfile();
-
-	/**
-	 * @param shopkeeperProfile the shopkeeperProfile to set
-	 */
-	void setShopkeeperProfile(ShopkeeperProfile shopkeeperProfile);
 
 }
