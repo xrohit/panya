@@ -31,23 +31,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	        http
 	            .authorizeRequests()
-	          		.antMatchers("/api/admin").access("hasRole('ROLE_ADMIN')")  
-	          		.antMatchers("/admin").access("hasRole('ROLE_ADMIN')")  // Just for testing remove later
-	          		.antMatchers("/api/user").access("hasRole('ROLE_USER')")
+	          		.antMatchers("/api/admin/**").hasRole("ADMIN")
+	          		.antMatchers("/admin").hasRole("ADMIN")  // Just for testing remove later
+	          		.antMatchers("/api/user/**").hasRole("USER")
 	                //.antMatchers("/", "/home", "/public","/css/**","/fonts/**","/libs/**").permitAll()
 	                //.anyRequest().authenticated()
 	                .and()
-	            .formLogin()
+	            .formLogin()	// The form login is permitted to all
 	                .loginPage("/login")
 //	        	    .usernameParameter("username").passwordParameter("password")
 	                .and()
-	            .formLogin()
-	            	.permitAll()
-	            	.and()	            
-	            .logout()
-	                .permitAll()
-	          	  	.and()
-	        	.logout()
+	        	.logout()		// The form login is permitted to all
 	        		.logoutSuccessUrl("/login?logout") 
 	        	   .and()
 	        	.exceptionHandling()
