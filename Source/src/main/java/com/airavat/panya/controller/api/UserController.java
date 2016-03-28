@@ -30,7 +30,7 @@ public class UserController implements BaseController {
 		IUser user = null;
 		try {
 		
-			user = new UserModel(usersDao.findById(Long.parseLong(id)), true);
+			user = new UserModel(usersDao.getUser(id).get(0), true);
         
 		} catch (Exception e) {
 			

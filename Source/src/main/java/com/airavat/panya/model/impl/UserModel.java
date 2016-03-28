@@ -45,8 +45,12 @@ public class UserModel implements IUser {
 			this.authoritieses.add(new AuthorityModel(a));
 		}
 		if(recursive) {
-			this.buyerProfile = new BuyerProfileModel(source.getBuyerProfile(), false);
-			this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);
+			if(source.getBuyerProfile() != null){
+				this.buyerProfile = new BuyerProfileModel(source.getBuyerProfile(), false);				
+			}
+			if(source.getBuyerProfile() != null){
+				this.shopkeeperProfile = new ShopkeeperProfileModel(source.getShopkeeperProfile(), false);				
+			}
 		}
 	}
 	
